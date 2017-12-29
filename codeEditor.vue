@@ -1,16 +1,17 @@
 <template>
     <div class="code-editor-container">
         <div class="code-editor-line"></div>
-        <div contenteditable="true" class="code-editor-content" @keyup="editorCode"></div>
+        <div contenteditable="true" ref="container" class="code-editor-content" @keyup="editorCode"></div>
     </div>
 </template>
 
 <script>
 import codeEditor from './lib/codeEditor';
+// import highlight from './lib/highlight';
 export default {
     props:[],
     mounted(){
-        codeEditor.init();        
+        codeEditor.init(this.$refs.container);        
     },
     data(){
         return {
@@ -19,9 +20,15 @@ export default {
     },
     methods:{
         editorCode(e){
-            this.codeHtml = e.target.innerHTML;
+            // this.codeHtml = codeEditor(e.target.innerHTML);
+            // console.log(this.codeHtml)
         }
     }, 
+    watch:{
+        codeHtml(value){
+            // this.$refs.container.innerHTML = value;
+        }
+    },
     computed:{
         code(){
             return this.codeHtml;
@@ -63,6 +70,10 @@ export default {
     padding: 10px;
     width: 100%;
     border-left: 1px solid #666;
+}
+
+.code-editor-content pre{
+    margin: 0;
 }
 </style>
 
